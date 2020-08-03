@@ -1,1 +1,1 @@
-# LogicaPro1
+# Proyectos Logica Grupo "Tim"
