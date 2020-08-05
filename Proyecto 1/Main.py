@@ -12,5 +12,7 @@ joint = (1,2,3,4)
 relation = [(1,3),(1,4),(2,1),(3,2)]
 
 ops = Operator(joint,relation)
+ops.closedTransitiveRel()
+print(ops.matriz)
 # PARTE 1
 # PARTE 2

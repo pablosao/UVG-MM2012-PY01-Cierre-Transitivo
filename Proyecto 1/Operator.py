@@ -20,5 +20,6 @@ class Operator():
                 print(str(num2) + " not in joint!")
                 
     # Funcion para primer parte
-
+    def closedTransitiveRel(self):
+        self.matriz = list(list(1 if (x,y) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)) )
     # Funcion para segunda parte 
