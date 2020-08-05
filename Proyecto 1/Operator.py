@@ -21,5 +21,8 @@ class Operator():
                 
     # Funcion para primer parte
     def closedTransitiveRel(self):
-        self.matriz = list(list(1 if (x,y) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)) )
+        self.matriz = list(list(1 if (y+1,x+1) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)))
+        3dmatriz = [self.matriz]
+        for x in range(2, len(self.joint)):
+            3dmatriz.append(multi)
     # Funcion para segunda parte 
