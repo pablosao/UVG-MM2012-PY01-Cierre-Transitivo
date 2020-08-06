@@ -25,4 +25,17 @@ class Operator():
         3dmatriz = [self.matriz]
         for x in range(2, len(self.joint)):
             3dmatriz.append(multi)
+        
     # Funcion para segunda parte 
+    def warshallAlgorithm():
+        if self.isValid:
+            #matrix = self.matriz[:]
+            matrix = [[0,1],
+                      [1,0]]
+            submatrix = matrix[:]
+            for num in range(len(submatrix)):
+                submatrix = self.calculateMatrix(submatrix,num+1)
+            print(submatrix)
+
+    def calculateMatrix(submatrix,num):
+        print("Hola")
