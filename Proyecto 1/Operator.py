@@ -19,12 +19,27 @@ class Operator():
                 self.isValid = False
                 print(str(num2) + " not in joint!")
                 
+    def matrixOperations(self, matrixres, matrix1 = [], matrix2 = [], multi = True):
+        for x in range(len(self.joint if multi else self.matriz3d)):
+              for y in range(len(self.joint)):
+                  for z in range(len(self.joint)):
+                      if multi:
+                          matrixres[x][y] = matrixres[x][y] or (matrix1[x][z] and matrix2[z][y])
+                      else:
+                          matrixres[y][z] = matrixres[y][z] or self.matriz3d[x][y][z]          
+        return matrixres
+        
+    # Funcion para las operaciones de matrices
+    def boolOperations(self,matrixres, pot = 0, multi = True):
+        return self.matrixOperations(matrixres,multi=False) if not multi else self.matriz if pot == 1 else self.matrixOperations(matrixres, self.matriz, self.matriz) if pot == 2 else self.matrixOperations(matrixres, self.boolOperations(matrixres, pot-1), self.matriz)  
+
+
     # Funcion para primer parte
     def closedTransitiveRel(self):
-        self.matriz = list(list(1 if (y+1,x+1) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)))
-        dmatriz = self.matriz[:]
-        for x in range(2, len(self.joint)):
-            dmatriz.append(multi)
+        matrixres = list(list(False for x in range(len(self.joint))) for y in range(len(self.joint)))
+        self.matriz = list(list(1 if (y+1,x+1) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)))    
+        self.matriz3d = list(self.boolOperations(matrixres, x + 1) for x in range(len(self.joint)))
+        return self.boolOperations(matrixres, multi=False)
         
     # Funcion para segunda parte 
     def warshallAlgorithm(self):
