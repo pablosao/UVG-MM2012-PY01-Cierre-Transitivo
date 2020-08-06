@@ -22,12 +22,12 @@ class Operator():
     # Funcion para primer parte
     def closedTransitiveRel(self):
         self.matriz = list(list(1 if (y+1,x+1) in self.relation else 0 for x in range(len(self.joint))) for y in range(len(self.joint)))
-        3dmatriz = [self.matriz]
+        dmatriz = self.matriz[:]
         for x in range(2, len(self.joint)):
-            3dmatriz.append(multi)
+            dmatriz.append(multi)
         
     # Funcion para segunda parte 
-    def warshallAlgorithm():
+    def warshallAlgorithm(self):
         if self.isValid:
             #matrix = self.matriz[:]
             matrix = [[0,1],
@@ -35,7 +35,17 @@ class Operator():
             submatrix = matrix[:]
             for num in range(len(submatrix)):
                 submatrix = self.calculateMatrix(submatrix,num+1)
-            print(submatrix)
+            self.printMatrix(submatrix)
+            
 
-    def calculateMatrix(submatrix,num):
+    # Funcion para mostrar matrices
+    def printMatrix(self,submatrix):
+        print(submatrix)
+        mLength = len(submatrix)
+        for elem in submatrix:
+            for x in range(mLength):
+                print("| " + str(elem[x]),end=' ')
+            print('|')
+
+    def calculateMatrix(self,submatrix,num):
         print("Hola")
