@@ -48,4 +48,26 @@ class Operator():
             print('|')
 
     def calculateMatrix(self,submatrix,num):
-        print("Hola")
+        row = submatrix[num - 1]
+        column = []
+        for m in submatrix:
+            column.append(m[num - 1])
+        nMatrix = []
+        for x in range(len(submatrix)):
+            if x == num - 1:
+                nMatrix.append(row)
+            else:
+                nRow = []
+                numRow = submatrix[num - 1]
+                for y in range(len(submatrix)):
+                    if y == num - 1:
+                        nRow.append(column[x])
+                    else:
+                        numa = numRow[y]
+                        numb = column[x]
+                        if numa == 1 and numb == 1:
+                            nRow.append(1)
+                        else:
+                            nRow.append(0)
+                nMatrix.append(nRow)
+        return nMatrix
