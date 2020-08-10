@@ -1,5 +1,9 @@
 """
 
+Referencias:
+
+Majumder, A. (s.f.). Floyd Warshall Algorithm in Python. Extraido de: https://www.codespeedy.com/floyd-warshall-algorithm-in-python/
+
 """
 import sys
 import os
@@ -7,7 +11,9 @@ from clear_screen import clear
 import time
 import termtables as tt
 from Operator import *
-import textwrap
+import numpy as np
+from math import inf
+from itertools import product
 
 """
 Variables estáticas
@@ -15,25 +21,62 @@ Variables estáticas
 
 CEND = '\033[0m'     # código de escape, para indicar donde termina el cambiar color en la terminarl
 CGREEN = '\033[92m'  # código de escape, cambiar color del texto en la terminarl
-CBLUE = '\033[94m'   # código de escape, cambiar color del texto en la terminarl
+#CBLUE = '\033[94m'   # código de escape, cambiar color del texto en la terminarl
+CBLUE = '\u001b[36m'
 CYELLOW = '\033[93m' # código de escape, cambiar color del texto en la terminarl
+CMAGENT = '\u001b[35m'
+CRED = '\u001b[31m'
+
+# Define infinity as the large enough value. This value will be
+# used for vertices not connected to each other
+INF  = 99999
+
+BANNER = """
+   ____ _                      _____                    _ _   _            
+  / ___(_) ___ _ __ _ __ ___  |_   _| __ __ _ _ __  ___(_) |_(_)_   _____  
+ | |   | |/ _ \ '__| '__/ _ \   | || '__/ _` | '_ \/ __| | __| \ \ / / _ \ 
+ | |___| |  __/ |  | | |  __/   | || | | (_| | | | \__ \ | |_| |\ V / (_) |
+  \____|_|\___|_|  |_|  \___|   |_||_|  \__,_|_| |_|___/_|\__|_| \_/ \___/ 
+"""
 
 # menu principal
-MENU_PRINCIPAL = CGREEN + '\t\tMenú\033[0m'+ CBLUE +\
+MENU_PRINCIPAL = CGREEN + '\t\t\tMenú\033[0m'+ CBLUE +\
 """
-\t1. Opción 1
-\t2. Opción 2
-\t3. Autores
-\t4. Salir""" + CEND
+\t\t1. Cierre Transitivo
+\t\t2. Cierre Transitivo utilizando Warshall
+\t\t3. Autores
+\t\t4. Salir \n""" + CEND
 
 OPCION_SALIR = 4
 
 INSTRUCCIONES_REL_OP1 = ('{3}Se ingresara una relación a la vez, donde cada uno de los valores debera estar separado por coma (,).{0}' +
-     '\n\n{2}Ejemplo:{0} {3}ingresar: {0}{2}1,2{0} {3}luego debe de seleccionar la tecla {0}{1}"ENTER"{0} {3}para ingresar la siguiente relación. ' +
-     '\n\nPara indicar que {1}terminó de ingresar{0} {3}las relaciones{0} {1}ingrese{0} {3}únicamente la letra {0}{1}f{0} {3}y luego seleccione \nla tecla {0}{1}"ENTER"{0}.').format(CEND,CYELLOW,CGREEN,CBLUE)
+     '\n{2}Ejemplo:{0} {3}ingresar: {0}{2}1,2{0} {3}luego debe de seleccionar la tecla {0}{1}"ENTER"{0} {3}para ingresar la siguiente relación. ' +
+     '\nPara indicar que {1}terminó de ingresar{0} {3}las relaciones{0} {1}ingrese{0} {3}únicamente la letra {0}{1}f{0} {3}y luego seleccione \nla tecla {0}{1}"ENTER"{0}.').format(CEND,CYELLOW,CGREEN,CBLUE)
+
+
+INSTRUCCIONES_REL_OP2 = ('{1}Debe ingresar una fila de la "Matriz Cuadrada" a la vez, separando los valores por coma (,).' +
+                         '\nSi desea ingresar una relación infinita ingrese{0} {2}INF{0}, {1}Ejemplo:{0} 1,2,INF,5' +
+                         '\n{1}Para indicar que{0} {2}terminó de ingresar{0} {1}las relaciones{0} {2}ingrese{0} {1}únicamente la letra {0}{2}f{0} {1}y luego \nseleccione la tecla {0}{2}"ENTER"{0}.\n').format(CEND,CBLUE,CYELLOW)
+
+# Solves all pair shortest path via Floyd Warshall Algorithm
+def floydWarshall(graph,n): #n=no. of vertex
+
+    dist = graph
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
+    print(dist)
+    input("mostrnado dist")
+    return dist
+
 
 def convert(list):
     return tuple(i for i in list)
+
+def isSquare (m):
+    return all (len (row) == len (m) for row in m)
 
 def toArray(valor):
     arreglo = []
@@ -44,6 +87,8 @@ def toArray(valor):
         for value in tmp:
             if(es_entero(value)):
                 arreglo.append(int(value))
+            elif(value.upper() == 'INF'):
+                arreglo.append(INF)
             else:
                 return []
 
@@ -84,7 +129,12 @@ def es_entero(digito):
         return digito[1:].isdigit()
     return digito.isdigit()
 
-def opcion1():
+def printBanner():
+    print(CMAGENT + BANNER + CEND)
+    print(CYELLOW + '-----------------------------------------------------------------------------' + CEND)
+    print()
+
+def cierreTransitivo():
 
     conjunto = []
 
@@ -95,8 +145,11 @@ def opcion1():
         # Limpiamos la terminal
         clear()
 
+        # Mostrando Banner
+        printBanner()
+
         # Titulo de la operacion
-        print(CGREEN + "\t\tDefinir el Conjunto.\n" + CEND)
+        print(CGREEN + "\t\t\tDefinir el Conjunto.\n" + CEND)
 
         #Solicitamo ingreso del conjunto
         in_conjunto = input(CBLUE+"Ingrese los numeros del conjunto separado por comas (ejemplo: 1,2,3,4) : "+CEND)
@@ -124,8 +177,11 @@ def opcion1():
         # Limpiamos la terminal
         clear()
 
+        # Mostrando Banner
+        printBanner()
+
         # Titulo de Operacion a realizar
-        print(CGREEN + "\t\tIngreso de Relación" + CEND)
+        print(CGREEN + "\t\t\tIngreso de Relación" + CEND)
 
         print(CBLUE+"\nINSTRUCCIONES:\n"+CEND)
 
@@ -137,15 +193,15 @@ def opcion1():
 
         # Si ya hay una relacion ingresada la mostraremos
         if(len(relacion) > 0):
-            print("\n\t{1}Relación Ingresada:{0} {2}".format(CEND,CBLUE,relacion))
+            print("\n\t{1}Relación Ingresada:{0} {2}\n".format(CEND,CBLUE,relacion))
             print()
 
         # Solicitamo ingreso de la relacion
-        in_relacion = input(CBLUE + "Ingrese la relación  (ejemplo: 1,2,3,4) : " + CEND)
+        in_relacion = input(CBLUE + "Ingrese la relación separada por comas  (ejemplo: 1,2) : " + CEND)
 
         if (string_lleno(in_relacion)):
             # Separando conjunto y validando que sean numeros
-            if('f' in in_relacion):
+            if('F' in in_relacion.upper()):
                 control = False
             else:
                 #separamos componentes
@@ -172,22 +228,107 @@ def opcion1():
         clear()
 
         # Titulo de Operacion a realizar
-        print(CGREEN + "\n\n\t\tCalculando Relacion Transitiva" + CEND)
+        print("\n\n\t\t{1}Calculando Relacion Transitiva{0}".format(CEND,CGREEN))
 
         ops = Operator(conjunto, relacion)
 
         return printMatrix(ops.closedTransitiveRel())
 
-
-
     return ""
 
+
+def algoritmoWarshall():
+
+    relacion = []
+    control = True
+
+    vertices = 0
+
+    # Ingreso de la relacion
+    while control:
+        # Limpiamos la terminal
+        clear()
+
+        #Mostrando Banner
+        printBanner()
+
+        # Titulo de Operacion a realizar
+        print(CGREEN + "\t\t\tIngreso de Relación" + CEND)
+
+        print(CBLUE + "\nINSTRUCCIONES:\n" + CEND)
+
+        # mostrando instrucciones de como ingresar una relaci[on
+        print(INSTRUCCIONES_REL_OP2)
+
+        # Si ya hay una relacion ingresada la mostraremos
+        if (len(relacion) > 0):
+
+            print("\n\t{1}Relación Ingresada:{0} {2}\n".format(CEND, CBLUE, relacion ))
+
+        # Solicitamo ingreso de la relacion
+        in_relacion = input(CBLUE + "Ingrese la fila de la matriz separada por comas  (ejemplo: 1,2,INF,4) : " + CEND)
+
+        if (string_lleno(in_relacion)):
+            # Separando conjunto y validando que sean numeros
+
+
+            if ( in_relacion[0:1].upper() == 'F' ):
+                # Validar matriz cuadrada
+                if(isSquare(relacion)):
+                    control = False
+                else:
+                    print(CRED + "\n\n\t\tLa matriz NO es cuadrada." + CEND)
+                    time.sleep(2)
+                    return ""
+            else:
+                # separamos componentes
+                temp_relacion = toArray(in_relacion)
+
+                if ((temp_relacion is not None) and (len(temp_relacion) > 0)):
+
+                    if(vertices == 0):
+                        vertices = len(temp_relacion)
+
+                    if(vertices > len(temp_relacion)):
+                        print(CYELLOW + "\n\n\t\tLa fila es menor a la ingresada a un inicio. Ingresela nuevamente" + CEND)
+                        time.sleep(2)
+                    elif(vertices < len(temp_relacion)):
+                        print(
+                            CYELLOW + "\n\n\t\tLa fila es mayor a la ingresada a un inicio. Ingresela nuevamente" + CEND)
+                        time.sleep(2)
+                    else:
+                        relacion.append(temp_relacion)
+                        print("Se agrego la relacion: {0}".format(temp_relacion))
+                        time.sleep(2)
+
+                else:
+                    print(CYELLOW + "\n\n\t\tUn dato del conjunto no es numerico, ingreselo de nuevo. \n\t\tSi desea regresar al menu principal seleccione ctrl + C" + CEND)
+                    time.sleep(3)
+
+    if ((len(relacion) > 0)):
+        # Limpiamos la terminal
+        clear()
+
+        # Mostrando Banner
+        printBanner()
+
+        # Titulo de Operacion a realizar
+        print("\n\n\t\t{1}Calculando Algoritmo de Warshall{0}".format(CEND, CGREEN))
+        tmpM = floydWarshall(relacion,len(relacion))
+        print(tmpM)
+        input("mostrando tmpM")
+        return printMatrix(tmpM)
+
+    return ""
 
 try:
     while True:
 
         # Limpiamos la terminal
         clear()
+
+        # Mostrando Banner
+        printBanner()
 
         # Mostramos menú principal
         print(MENU_PRINCIPAL)
@@ -209,15 +350,27 @@ try:
                     # Saliendo del programa
                     exit()
                 elif(opmenu_principal == 1):
-                    matriz = opcion1()
+
+                    matriz = cierreTransitivo()
 
                     if(string_lleno(matriz)):
                         clear()
-                        print("\n\t\tMatriz Transitiva\n\n")
+                        print("\n\t\t{1}Matriz Transitiva{0}\n\n".format(CEND,CGREEN))
                         print(matriz)
                         print()
-                        input("Seleccione cualquier tecla para continuar: ")
-                        
+                        input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE,CEND))
+
+                elif(opmenu_principal == 2):
+
+                    matriz = algoritmoWarshall()
+
+                    if (string_lleno(matriz)):
+                        clear()
+                        print("\n\t\t{0}Matriz Transitiva por Algoritmo de Warshall{1}\n\n".format(CGREEN,CEND))
+                        print(matriz)
+                        print()
+                        input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE,CEND))
+
             else:
                 print(CYELLOW + "\nDebe ingresar el numero de la opcion deseada" + CEND)
                 time.sleep(2)

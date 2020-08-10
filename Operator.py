@@ -50,7 +50,10 @@ class Operator():
             submatrix = matrix[:]
             for num in range(len(submatrix)):
                 submatrix = self.calculateMatrix(submatrix,num+1)
-            self.printMatrix(submatrix)
+
+            # psao / 08-08-2020 / cambiando a retorno de submatrix
+            #self.printMatrix(submatrix)
+            return submatrix
             
 
     # Funcion para mostrar matrices
