@@ -13,6 +13,9 @@ relation = [(1,3),(1,4),(2,1),(3,2)]
 
 ops = Operator(joint,relation)
 
+print("Opcion 1")
 print(ops.closedTransitiveRel())
+print("\nWarshall")
+ops.warshallAlgorithm()
 # PARTE 1
 # PARTE 2
