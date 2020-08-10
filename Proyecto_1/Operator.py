@@ -52,7 +52,9 @@ class Operator():
             submatrix = matrix[:]
             for num in range(len(submatrix)):
                 submatrix = self.calculateMatrix(submatrix,num+1)
-            self.printMatrix(submatrix)
+            # Pablo Sao / cambiando para retornar matriz y no imprimirla
+            #self.printMatrix(submatrix)
+            return submatrix
             
     # Funcion para mostrar matrices
     def printMatrix(self,submatrix):

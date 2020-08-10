@@ -1,5 +1,4 @@
 """
-
 """
 import sys
 import os
@@ -7,7 +6,7 @@ from clear_screen import clear
 import time
 import termtables as tt
 
-from '/Proyecto 1/'.Operator import *
+from Proyecto_1.Operator import *
 
 """
 Variables estáticas
@@ -37,7 +36,7 @@ BANNER = """
 MENU_PRINCIPAL = CGREEN + '\t\t\tMenú\033[0m'+ CBLUE +\
 """
 \t\t1. Cierre Transitivo
-\t\t2. Autores
+\t\t2. Autores y Referencias
 \t\t3. Salir \n""" + CEND
 
 OPCION_SALIR = 3
@@ -262,10 +261,10 @@ try:
 
                     if( string_lleno(matriz[0]) and string_lleno(matriz[1])):
                         clear()
-                        print("\n\t\t{1}Matriz Transitiva{0}\n\n".format(CEND,CGREEN))
+                        print("\n\t{1}Matriz Transitiva{0}\n\n".format(CEND,CGREEN))
                         print(matriz[0])
                         print()
-                        print("\n\t\t{1}Matriz Transitiva con Algoritmo de Warshall{0}\n\n".format(CEND, CGREEN))
+                        print("\n\t{1}Matriz Transitiva con Algoritmo de Warshall{0}\n\n".format(CEND, CGREEN))
                         print(matriz[1])
                         print()
                         input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE,CEND))
@@ -278,8 +277,8 @@ try:
                     print("{1}Elaborado por:{0} \n\t<> Javier Ramírez.\n\t<> André Rodríguez.\n\t<> Pablo Sao.".format(CEND,CGREEN))
 
                     print(CMAGENT + "\nREFERENCIAS:" + CEND)
-
-                    print()
+                    print("Lin, C. (2007). Theory of Alorithms/ Algorithms in Bioinformatics.\nExtraído de: https://cs.winona.edu/lin/cs440/ch08-2.pdf\n")
+                    print("Nikam, S. (2018). Warshall's algorithm (Transitive closure).\nExtraído de: https://www.youtube.com/watch?v=IlPE2QjAXxw\n")
                     input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE, CEND))
                 else:
                     clear()
