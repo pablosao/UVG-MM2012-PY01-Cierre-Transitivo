@@ -52,7 +52,6 @@ class Operator():
                 submatrix = self.calculateMatrix(submatrix,num+1)
             self.printMatrix(submatrix)
             
-
     # Funcion para mostrar matrices
     def printMatrix(self,submatrix):
         print(submatrix)
@@ -83,6 +82,8 @@ class Operator():
                         if numa == 1 and numb == 1:
                             nRow.append(1)
                         else:
-                            nRow.append(0)
+                            orRow = submatrix[x]
+                            val = orRow[y]
+                            nRow.append(val)
                 nMatrix.append(nRow)
         return nMatrix
