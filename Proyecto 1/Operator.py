@@ -45,8 +45,10 @@ class Operator():
     def warshallAlgorithm(self):
         if self.isValid:
             #matrix = self.matriz[:]
-            matrix = [[0,1],
-                      [1,0]]
+            matrix = [[0,0,1,1],
+                      [1,0,0,0],
+                      [0,1,0,0],
+                      [0,0,0,0]]
             submatrix = matrix[:]
             for num in range(len(submatrix)):
                 submatrix = self.calculateMatrix(submatrix,num+1)
