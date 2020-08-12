@@ -36,10 +36,11 @@ BANNER = """
 MENU_PRINCIPAL = CGREEN + '\t\t\tMenú\033[0m'+ CBLUE +\
 """
 \t\t1. Cierre Transitivo
-\t\t2. Autores y Referencias
-\t\t3. Salir \n""" + CEND
+\t\t2. Cierre Transitivo con Warshall
+\t\t3. Autores y Referencias
+\t\t4. Salir \n""" + CEND
 
-OPCION_SALIR = 3
+OPCION_SALIR = 4
 
 INSTRUCCIONES_REL_OP1 = ('{3}Se ingresara una relación a la vez, donde cada uno de los valores debera estar separado por coma (,).{0}' +
      '\n{2}Ejemplo:{0} {3}ingresar: {0}{2}1,2{0} {3}luego debe de seleccionar la tecla {0}{1}"ENTER"{0} {3}para ingresar la siguiente relación. ' +
@@ -113,7 +114,7 @@ def printBanner():
     print(CYELLOW + '-----------------------------------------------------------------------------' + CEND)
     print()
 
-def cierreTransitivo():
+def cierreTransitivo(warshall):
     try:
 
         conjunto = []
@@ -210,20 +211,27 @@ def cierreTransitivo():
             # Titulo de Operacion a realizar
             print("\n\n\t\t{1}Calculando Relacion Transitiva{0}".format(CEND,CGREEN))
 
+
             ops = Operator(conjunto, relacion)
 
+            if (warshall):
+                return printMatrix(ops.warshallAlgorithm())
+            else:
+                return printMatrix(ops.closedTransitiveRel())
             # Retornamos en formato de ASCII la matriz transitiva y el calculo realizado con el algoritmo de Warshall
-            return [printMatrix(ops.closedTransitiveRel()),printMatrix(ops.warshallAlgorithm())]
+            #return [printMatrix(ops.closedTransitiveRel()),printMatrix(ops.warshallAlgorithm())]
 
         # Si existe un problema retornamos el string vacio
-        return ["",""]
+        #return ["",""]
+        return ""
 
     except KeyboardInterrupt:
         clear()
         printBanner()
         print(CYELLOW + "\n\tRegresando al Menú" + CEND)
         time.sleep(1)
-        return ["", ""]
+        #return ["", ""]
+        return ""
 
 
 
@@ -257,19 +265,44 @@ try:
                     exit()
                 elif(opmenu_principal == 1):
 
-                    matriz = cierreTransitivo()
+                    matriz = cierreTransitivo(False)
 
-                    if( string_lleno(matriz[0]) and string_lleno(matriz[1])):
+                    if( string_lleno(matriz) ):
                         clear()
                         print("\n\t{1}Matriz Transitiva{0}\n\n".format(CEND,CGREEN))
-                        print(matriz[0])
+                        print(matriz)
                         print()
-                        print("\n\t{1}Matriz Transitiva con Algoritmo de Warshall{0}\n\n".format(CEND, CGREEN))
-                        print(matriz[1])
-                        print()
+                        #print("\n\t{1}Matriz Transitiva con Algoritmo de Warshall{0}\n\n".format(CEND, CGREEN))
+                        #print(matriz[1])
+                        #print()
                         input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE,CEND))
+                    else:
+                        clear()
+                        printBanner()
+                        print(CYELLOW + "\nNo se pudo calcular la Matriz, los datos ingresados no eran correctos\nrevise que las relaciones sean con valores validos y sea una matriz cuadrada la que se este formando" + CEND)
+                        time.sleep(2)
 
-                elif(opmenu_principal == 2):
+                elif (opmenu_principal == 2):
+
+                    matriz = cierreTransitivo(True)
+
+                    if (string_lleno(matriz)):
+                        clear()
+                        #print("\n\t{1}Matriz Transitiva{0}\n\n".format(CEND, CGREEN))
+                        #print(matriz[0])
+                        #print()
+                        print("\n\t{1}Matriz Transitiva con Algoritmo de Warshall{0}\n\n".format(CEND, CGREEN))
+                        print(matriz)
+                        print()
+                        input("{0}Seleccione cualquier tecla para continuar:{1} ".format(CBLUE, CEND))
+
+                    else:
+                        clear()
+                        printBanner()
+                        print(CYELLOW + "\nNo se pudo calcular la Matriz, los datos ingresados no eran correctos\nrevise que las relaciones sean con valores validos y sea una matriz cuadrada la que se este formando" + CEND)
+                        time.sleep(2)
+
+                elif(opmenu_principal == 3):
                     clear()
 
                     # mostramos banner
