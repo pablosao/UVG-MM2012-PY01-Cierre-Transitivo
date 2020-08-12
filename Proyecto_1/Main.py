@@ -16,6 +16,6 @@ ops = Operator(joint,relation)
 print("Opcion 1")
 print(ops.closedTransitiveRel())
 print("\nWarshall")
-ops.warshallAlgorithm()
+print(ops.warshallAlgorithm())
 # PARTE 1
 # PARTE 2
